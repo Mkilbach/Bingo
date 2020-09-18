@@ -15,7 +15,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px;
+    height: 130px;
     border: 1px solid black;
     padding: 10px;
     overflow: hidden;
@@ -33,7 +33,7 @@
 }
 
 .gridItemActive:hover {
-    background-color:#6ba1b5;
+    background-color: #6ba1b5;
 }
 
 .gridItem > div {

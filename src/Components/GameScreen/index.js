@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Space, Typography } from "antd";
+import { Button, Popconfirm, Space, Typography } from "antd";
 
 import "./index.css";
 
@@ -13,7 +13,7 @@ const GameScreen = ({ endGame, entries = [], size = 3, toggleEntryMark }) => {
                     className="gameGrid"
                     style={{
                         gridTemplateColumns: `${"1fr ".repeat(size)}`,
-                        width: `${(entries.length / size) * 100}px`,
+                        width: `${(entries.length / size) * 130}px`,
                     }}
                 >
                     {entries.map((el, i) => {
@@ -33,9 +33,16 @@ const GameScreen = ({ endGame, entries = [], size = 3, toggleEntryMark }) => {
                     })}
                 </div>
                 <div>
-                    <Button type="primary" onClick={endGame}>
-                        End!
-                    </Button>
+                    <Popconfirm
+                        title="Czy na pewno chcesz wyjść?"
+                        okText="Tak"
+                        cancelText="Nie"
+                        onConfirm={endGame}
+                    >
+                        <Button type="primary">
+                            End!
+                        </Button>
+                    </Popconfirm>
                 </div>
             </Space>
         </div>
