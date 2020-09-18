@@ -1,0 +1,41 @@
+.gameContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 25px;
+}
+
+.gameGrid {
+    display: grid;
+    border: 1px solid black;
+    margin: 0 auto;
+}
+
+.gridItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    border: 1px solid black;
+    padding: 10px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.gridItem:hover {
+    background-color: #93becf;
+}
+
+.gridItemActive {
+    background-color: #ccf1ff;
+}
+
+.gridItemActive:hover {
+    background-color:#6ba1b5;
+}
+
+.gridItem > div {
+    margin-bottom: 0 !important;
+}

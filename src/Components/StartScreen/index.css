@@ -1,0 +1,11 @@
+.mainContainer {
+    padding: 25px;
+}
+
+.entriesContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 400px;
+    margin: 0 auto;
+}
