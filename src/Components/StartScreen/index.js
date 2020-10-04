@@ -16,6 +16,7 @@ const StartScreen = ({
     entries,
     setEntries,
     startGame,
+    startRandomGame,
     addEntry,
 }) => {
     const removeEntry = (index) => {
@@ -32,9 +33,12 @@ const StartScreen = ({
         <div className="mainContainer">
             <Space direction="vertical" style={{ width: "100%" }}>
                 <Title className="title" level={4}>
-                    Wybierz wielkość i podaj hasła
+                    Wybierz wielkość
                 </Title>
                 <SizeSelect onChange={setSize} value={size} />
+                <Title className="title" level={4}>
+                    Podaj hasła lub wygnereruj losowe
+                </Title>
                 <div className="entriesContainer">
                     <Space direction="vertical">
                         <AddEntry addEntry={addEntry} disabled={isReady} />
@@ -47,6 +51,9 @@ const StartScreen = ({
                 </div>
                 <Button type="primary" disabled={!isReady} onClick={startGame}>
                     Jestem!
+                </Button>
+                <Button type="primary" onClick={startRandomGame}>
+                    Losowanko
                 </Button>
             </Space>
         </div>

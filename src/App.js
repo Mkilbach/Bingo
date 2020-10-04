@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import shuffle from "./utls/shuffle";
 
 import MainLayout from "./Components/MainLayout";
 import StartScreen from "./Components/StartScreen";
 import GameScreen from "./Components/GameScreen";
+
+import { predefinedEntries } from "./predefinedEntries";
+import trudne from "./assets/audio/trudnetrudne.mp3";
+import stronthold from "./assets/audio/stronthold.mp3";
 
 import "./App.css";
 
@@ -12,36 +16,52 @@ const storegaSize = JSON.parse(localStorage.getItem("size"));
 const storageIsStarted = JSON.parse(localStorage.getItem("isStarted"));
 
 function App() {
+    const audioStartGame = useRef();
+    const audioConfirmEndGame = useRef();
     const [isStarted, setIsStarted] = useState(!!storageIsStarted);
     const [size, setSize] = useState(storegaSize || 3);
     const [entries, setEntries] = useState(storageEntries || []);
 
-    const changeGameState = (flag) => {
-        if (!flag) {
-            setSize(3);
-            setEntries([]);
-        } else {
-            setEntries(shuffle(entries));
-        }
-
-        setIsStarted(flag);
-        localStorage.setItem("isStarted", JSON.stringify(flag));
+    const startGame = providedEntries => {
+        setEntries(providedEntries || shuffle(entries));
+        setIsStarted(true);
+        localStorage.setItem("isStarted", JSON.stringify(true));
+        audioStartGame.current.play();
     };
 
-    const addEntry = (entry) => {
-        setEntries((arr) => [...arr, { name: entry, isMarked: false }]);
+    const endGame = () => {
+        setSize(3);
+        setEntries([]);
+        setIsStarted(false);
+        localStorage.setItem("isStarted", JSON.stringify(false));
+    };
+
+    const startRandom = () => {
+        const randomEntries = shuffle([...predefinedEntries]).splice(
+            0,
+            Math.pow(size, 2)
+        );
+        startGame(mapEntriesToObjects(randomEntries));
+    };
+
+    const mapEntriesToObjects = arr => {
+        return arr.map(el => ({ marked: false, name: el }));
+    };
+
+    const addEntry = entry => {
+        setEntries(arr => [...arr, { name: entry, isMarked: false }]);
     };
 
     const toggleEntryMark = index => {
         const newEntries = [...entries];
         newEntries[index].isMarked = !newEntries[index].isMarked;
-        setEntries(newEntries)
-    }
+        setEntries(newEntries);
+    };
 
     useEffect(() => {
         const maxLength = Math.pow(size, 2);
         if (entries.length > maxLength) {
-            setEntries((arr) => arr.slice(0, maxLength));
+            setEntries(arr => arr.slice(0, maxLength));
         }
     }, [size, entries]);
 
@@ -61,17 +81,21 @@ function App() {
                     setSize={setSize}
                     entries={entries}
                     setEntries={setEntries}
-                    startGame={() => changeGameState(true)}
+                    startGame={startGame}
+                    startRandomGame={startRandom}
                     addEntry={addEntry}
                 />
             ) : (
                 <GameScreen
-                    endGame={() => changeGameState(false)}
+                    endGame={endGame}
                     entries={entries}
                     size={size}
                     toggleEntryMark={toggleEntryMark}
+                    confirmEndGame={() => audioConfirmEndGame.current.play()}
                 />
             )}
+            <audio src={trudne} ref={audioStartGame} />
+            <audio src={stronthold} ref={audioConfirmEndGame} />
         </MainLayout>
     );
 }

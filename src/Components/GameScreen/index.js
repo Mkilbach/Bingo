@@ -5,7 +5,13 @@ import "./index.css";
 
 const { Paragraph } = Typography;
 
-const GameScreen = ({ endGame, entries = [], size = 3, toggleEntryMark }) => {
+const GameScreen = ({
+    endGame,
+    entries = [],
+    size = 3,
+    toggleEntryMark,
+    confirmEndGame,
+}) => {
     return (
         <div className="gameContainer">
             <Space direction="vertical" style={{ width: "100%" }}>
@@ -39,7 +45,7 @@ const GameScreen = ({ endGame, entries = [], size = 3, toggleEntryMark }) => {
                         cancelText="Nie"
                         onConfirm={endGame}
                     >
-                        <Button type="primary">
+                        <Button type="primary" onClick={confirmEndGame}>
                             End!
                         </Button>
                     </Popconfirm>
